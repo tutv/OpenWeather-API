@@ -1,0 +1,14 @@
+ body {
+     padding: 0; 
+     margin: 0;
+     min-width: 350px;
+     font-family: 'Roboto', sans-serif;
+ } 
+ 
+ canvas {
+     vertical-align: top;
+ } 
+ 
+ .marginStuff {
+     margin-left: 10px;
+ }

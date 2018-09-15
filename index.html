@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>EZ Weather</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.sound.js"></script>
+    <script type="text/javascript">
+      var value;
+var mode;
+var weather;
+
+var apiPath = 'http://api.openweathermap.org/data/2.5/weather?q=';
+var apiKey = '&appid=e0342ddf94a760131ffacfa0e12bddf4';
+var unit = '&units=metric';
+
+var input;
+
+function setup() {
+    noCanvas();
+    
+    var button = select('#submit');
+    button.mousePressed(weatherAskAndDraw);
+    
+    input = select('#city');
+}
+
+function keyDraw(){
+    if (weather){
+        var temp = weather.main.temp;
+        var humidity = weather.main.humidity;
+        var minTemp = weather.main.temp_min;
+        var maxTemp = weather.main.temp_max;
+        var country = weather.sys.country;
+        var city = weather.name;
+        var vis = weather.visibility;
+        var des = weather.weather[0].description;
+        var windSpeed = weather.wind.speed;
+        
+        mode = des;
+        var string = mode.charAt(0).toUpperCase() + mode.substr(1,mode.length).toLowerCase();
+        
+        fill(255);
+        
+        document.getElementById("p1").innerHTML = "City: " + city;
+        document.getElementById("p2").innerHTML = "Description: " + string;
+        document.getElementById("p3").innerHTML = "Temperature: " + temp;
+        document.getElementById("p4").innerHTML = "Humidity: " + humidity;
+        document.getElementById("p5").innerHTML = "Wind Speed: " + windSpeed;
+    }
+}
+
+function weatherAskAndDraw(){
+    var url = apiPath + input.value() + apiKey + unit;
+    loadJSON(url, gotData);
+    
+    keyDraw();
+}
+
+function gotData(data){
+    weather = data;
+}
+    </script>
+
+    <style>
+       body {
+     padding: 0; 
+     margin: 0;
+     min-width: 350px;
+     font-family: 'Roboto', sans-serif;
+ } 
+ 
+ canvas {
+     vertical-align: top;
+ } 
+ 
+ .marginStuff {
+     margin-left: 10px;
+ } body {
+     padding: 0; 
+     margin: 0;
+     min-width: 350px;
+     font-family: 'Roboto', sans-serif;
+ } 
+ 
+ canvas {
+     vertical-align: top;
+ } 
+ 
+ .marginStuff {
+     margin-left: 10px;
+ }
+    </style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  </head>
+  <body>
+      
+      <p>
+          <span class = "marginStuff">City:</span> <input id = "city" class = "w3-round" placeholder = "London"/>
+          <button id = "submit" class = "w3-btn w3-small w3-blue w3-round">Submit</button>
+      </p>
+      
+      <p id="p1" class = "marginStuff"></p>
+      <p id = "p2" class = "marginStuff"></p>
+      <p id = "p3" class = "marginStuff"></p>
+      <p id = "p4" class = "marginStuff"></p>
+      <p id = "p5" class = "marginStuff"></p>
+  </body>
+</html>
